@@ -1,0 +1,40 @@
+#Menentukan versi docker-compose 3.7
+version: '3.7'
+#Mendefinisikan service
+services:
+#Mendefinisikan service item-db
+  item-db:
+    image: mongo:3
+#Melakukan port mapping dari port 27017 host ke port 27017 container
+    ports:
+      - "27017:27017"  
+#Memakai volume bernama app-db dengan target /data/db
+    volumes:
+      - app-db:/data/db
+#Menerapkan restart policy pada berkas docker-compose.yml agar container selalu restart ketika terhenti
+    restart: always 
+#Menambahkan service ke Docker network 
+    networks:
+      - app-network  
+#Mendefinisikan service item-app
+  item-app:
+#item-app menggunakan image container dari docker hub
+    image: item-app:v1 
+#Melakukan port mapping dari port 80 host ke port 8080 Container
+    ports:
+      - "80:8080" 
+#memastikan item-app hanya berjalan setelah item-db diluncurkan 
+    depends_on:
+      - item-db  
+#Menerapkan restart policy pada berkas docker-compose.yml agar container selalu restart ketika terhenti
+    restart: always 
+#Menambahkan service ke Docker network
+    networks:
+      - app-network  
+
+networks:
+  app-network:
+    driver: bridge
+#Membuat volume bernama app-db
+volumes:
+  app-db:  
