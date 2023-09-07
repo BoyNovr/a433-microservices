@@ -19,7 +19,7 @@ services:
 #Mendefinisikan service item-app
   item-app:
 #item-app menggunakan image container dari docker hub
-    image: item-app:v1 
+    image: boynovriyal/item-app:v1
 #Melakukan port mapping dari port 80 host ke port 8080 Container
     ports:
       - "80:8080" 
